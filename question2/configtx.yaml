@@ -8,8 +8,8 @@ Profiles:
         Consortiums:
             FinalExam:
                 Organizations:
-                    # - *Asus
-                    # - *Dell
+                    - *Org1
+                    # - *Org2
                     # - *HP
                     # - *Amazon
 
@@ -42,24 +42,24 @@ Organizations:
 
         MSPDir: crypto-config/ordererOrganizations/FinalExam.com/msp
 
-    # - &Asus
-    #     Name: AsusMSP
-    #     ID: AsusMSP
+    - &Org1
+        Name: Org1MSP
+        ID: Org1MSP
 
-    #     MSPDir: crypto-config/peerOrganizations/Asus.com/msp
+        MSPDir: crypto-config/peerOrganizations/Org1.com/msp
+
+        AnchorPeers:
+            - Host: peer0.Org1.com
+              Port: 7051
+
+    # - &Org2
+    #     Name: Org2MSP
+    #     ID: Org2MSP
+
+    #     MSPDir: crypto-config/peerOrganizations/Org2.com/msp
 
     #     AnchorPeers:
-    #         - Host: peer0.Asus.com
-    #           Port: 7051
-
-    # - &Amazon
-    #     Name: AmazonMSP
-    #     ID: AmazonMSP
-
-    #     MSPDir: crypto-config/peerOrganizations/Amazon.com/msp
-
-    #     AnchorPeers:
-    #         - Host: peer0.Amazon.com
+    #         - Host: peer0.Org2.com
     #           Port: 7051
 
     # - &Dell
