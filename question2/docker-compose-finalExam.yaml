@@ -65,6 +65,50 @@ services:
     networks:
       - FinalExam
 
+  peer0.Org2.com:
+    container_name: peer0.Org2.com
+    extends:
+      file: ./peer.yaml
+      service: peer
+    environment:
+      - CORE_PEER_ID=peer0.Org2.com
+      - CORE_PEER_ADDRESS=peer0.Org2.com:7051
+      - CORE_PEER_LOCALMSPID=Org2MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.Org2.com:7051
+    volumes:
+      - ./crypto-config/peerOrganizations/Org2.com/peers/peer0.Org2.com/msp:/etc/hyperledger/msp/peer
+    ports:
+      - 8051:8051
+      - 8053:8053
+    depends_on:
+      - orderer.FinalExam.com
+    networks:
+      - FinalExam
+
+  peer1.Org2.com:
+    container_name: peer1.Org2.com
+    extends:
+      file: ./peer.yaml
+      service: peer
+    environment:
+      - CORE_PEER_ID=peer1.Org2.com
+      - CORE_PEER_ADDRESS=peer1.Org2.com:7051
+      - CORE_PEER_LOCALMSPID=Org2MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.Org2.com:7051
+    volumes:
+      - ./crypto-config/peerOrganizations/Org2.com/peers/peer1.Org2.com/msp:/etc/hyperledger/msp/peer
+    ports:
+      - 8052:8052
+      - 8054:8054
+    depends_on:
+      - orderer.FinalExam.com
+    networks:
+      - FinalExam
+  
+  
+  
   # peer1.Org1.com:
   #   container_name: peer1.Org1.com
   #   extends:

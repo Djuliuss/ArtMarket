@@ -52,15 +52,15 @@ Organizations:
             - Host: peer0.Org1.com
               Port: 7051
 
-    # - &Org2
-    #     Name: Org2MSP
-    #     ID: Org2MSP
+    - &Org2
+        Name: Org2MSP
+        ID: Org2MSP
 
-    #     MSPDir: crypto-config/peerOrganizations/Org2.com/msp
+        MSPDir: crypto-config/peerOrganizations/Org2.com/msp
 
-    #     AnchorPeers:
-    #         - Host: peer0.Org2.com
-    #           Port: 7051
+        AnchorPeers:
+            - Host: peer0.Org2.com
+              Port: 7051
 
     # - &Dell
     #     Name: DellMSP
