@@ -10,16 +10,14 @@ Profiles:
                 Organizations:
                     - *Org1
                     - *Org2
-                    # - *HP
-                    # - *Amazon
 
-    # AsusChannel:
-    #     Consortium: PCXCHG
-    #     Application:
-    #         <<: *ApplicationDefaults
-    #         Organizations:
-    #             - *Asus
-    #             - *Amazon
+    TestChannel:
+        Consortium: FinalExam
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Org1
+                - *Org2
     # DellChannel:
     #     Consortium: PCXCHG
     #     Application:

@@ -8,7 +8,7 @@ cryptogen generate --config crypto-config.yaml
 
 configtxgen -profile FinalExamOrdererGenesis -outputBlock ./orderer/genesis.block
 
-# configtxgen -profile AsusChannel -outputCreateChannelTx ./channels/Asus.tx -channelID asus
+configtxgen -profile TestChannel -outputCreateChannelTx ./channels/Test.tx -channelID Test
 
 # configtxgen -profile DellChannel -outputCreateChannelTx ./channels/Dell.tx -channelID dell
 
