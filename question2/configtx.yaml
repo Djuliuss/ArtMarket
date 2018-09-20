@@ -9,7 +9,7 @@ Profiles:
             FinalExam:
                 Organizations:
                     - *Org1
-                    # - *Org2
+                    - *Org2
                     # - *HP
                     # - *Amazon
 

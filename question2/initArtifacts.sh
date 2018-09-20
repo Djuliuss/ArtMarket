@@ -6,7 +6,7 @@ sudo rm -rf channels && mkdir channels
 
 cryptogen generate --config crypto-config.yaml
 
-configtxgen -profile FinalExamOrdererGenesis -outputBlock ./orderer/genesis.block
+# configtxgen -profile FinalExamOrdererGenesis -outputBlock ./orderer/genesis.block
 
 # configtxgen -profile AsusChannel -outputCreateChannelTx ./channels/Asus.tx -channelID asus
 
