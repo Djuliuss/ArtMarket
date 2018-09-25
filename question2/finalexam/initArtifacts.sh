@@ -5,12 +5,12 @@ sudo rm -rf crypto-config
 cryptogen generate --config crypto-config.yaml
 
 
-sudo rm -rf orderer && mkdir orderer
+sudo rm -rf orderer ; mkdir orderer
 
 configtxgen -profile finalexamOrdererGenesis -outputBlock ./orderer/genesis.block
 
 
-sudo rm -rf channels && mkdir channels
+sudo rm -rf channels ; mkdir channels
 
 configtxgen -profile TestChannel -outputCreateChannelTx ./channels/Test.tx -channelID test
 

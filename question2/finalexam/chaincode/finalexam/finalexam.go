@@ -13,7 +13,7 @@ type FinalExam struct {
 type PieceOfArt struct {
     Snumber string  		// Key reference
     Name string				// Name of the piece of art. Example: "Mona Lisa"
-    Type string				// Type. Example: "Picture"
+    Type string				// Type. Example: "Painting"
 	Owner string   }		// Owner. Example: "Org1"
 
 func (c *FinalExam) Init(stub shim.ChaincodeStubInterface) pb.Response { 
@@ -24,13 +24,16 @@ func (c *FinalExam) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 
     function, args := stub.GetFunctionAndParameters()
 
+    fmt.Printf("\nhello. I am calling function: %s", function)
     switch function {
     case "createPieceOfArt":
+        fmt.Printf("\nINSIDE CASE1")
         return c.createPieceOfArt(stub, args)
 //    case "transferPieceOfArt":
 //		return c.transferPieceOfArt(stub, args)
-// 	  case "queryPieceOfArt":
-// 		return c.queryPieceOfArt(stub, args)
+    case "queryPieceOfArt":
+        fmt.Printf("\nINSIDE CASE2")
+ 		return c.queryPieceOfArt(stub, args)
 	default:
         return shim.Error("Available functions: createPieceOfArt, transferPieceOfArt, queryPieceOfArt")
     }
@@ -47,20 +50,44 @@ func (c *FinalExam) createPieceOfArt(stub shim.ChaincodeStubInterface, args []st
         return shim.Error("GetCreator err")
     }
 
-	pieceOfArt := PieceOfArt{args[0], args[1], args[2], string(creatorByte)}
+    pieceOfArt := PieceOfArt{args[0], args[1], args[2], string(creatorByte)}
 
+    fmt.Printf("\npiece of art: %s", pieceOfArt)
+    
     pieceOfArtAsBytes, err := json.Marshal(pieceOfArt)
-
+    
+    fmt.Printf("\npiece of art as bytes: %s", pieceOfArtAsBytes)
+    
     if err != nil {
         return shim.Error(err.Error())
     }
-
+    
+    fmt.Printf("\nsnumber: %s", pieceOfArt.Snumber)
+    
     err = stub.PutState(pieceOfArt.Snumber, pieceOfArtAsBytes)
 
     if err != nil {
         return shim.Error(err.Error())
     }
     return shim.Success(nil)
+}
+
+func (c *FinalExam) queryPieceOfArt(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+    
+    fmt.Printf("\nI am here")
+    value, err := stub.GetState(args[0])
+    if err != nil {
+            return shim.Error("Serial number " + args[0] +" not found")
+        }
+    fmt.Printf("\nrecovering this piece: %s", args[0])
+    var pieceOfArt PieceOfArt
+    json.Unmarshal(value, &pieceOfArt)
+
+    fmt.Printf("\nI am here, too")
+    fmt.Printf("\npiece of art recovered:", pieceOfArt)
+   
+    return shim.Success([]byte(" Snumber: " + pieceOfArt.Snumber + " Name: " + pieceOfArt.Name + " Type: " + pieceOfArt.Type + " Owner: " + pieceOfArt.Owner))
+    //return shim.Success(value)
 }
 
 func main() {
