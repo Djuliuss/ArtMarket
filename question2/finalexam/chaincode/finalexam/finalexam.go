@@ -5,6 +5,7 @@ import (
     "github.com/hyperledger/fabric/core/chaincode/shim"
     pb "github.com/hyperledger/fabric/protos/peer"
     "encoding/json"
+    "strings"
 )
 
 type FinalExam struct {
@@ -24,15 +25,13 @@ func (c *FinalExam) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 
     function, args := stub.GetFunctionAndParameters()
 
-//    fmt.Printf("\nhello. I am calling function: %s", function)
+   //fmt.Printf("\nhello. I am calling function: %s", function)
     switch function {
     case "createPieceOfArt":
-//        fmt.Printf("\nINSIDE CASE1")
         return c.createPieceOfArt(stub, args)
-//    case "transferPieceOfArt":
-//		return c.transferPieceOfArt(stub, args)
+    case "transferPieceOfArt":
+		return c.transferPieceOfArt(stub, args)
     case "queryPieceOfArt":
-//        fmt.Printf("\nINSIDE CASE2")
  		return c.queryPieceOfArt(stub, args)
 	default:
         return shim.Error("Available functions: createPieceOfArt, transferPieceOfArt, queryPieceOfArt")
@@ -69,6 +68,40 @@ func (c *FinalExam) createPieceOfArt(stub shim.ChaincodeStubInterface, args []st
     if err != nil {
         return shim.Error(err.Error())
     }
+    return shim.Success(nil)
+}
+
+func (c *FinalExam) transferPieceOfArt(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+
+    if len(args) != 2 {
+        return shim.Error("create transfer piece of art usage: Serialnumber, New owner")
+    }
+    
+    creatorByte, err := stub.GetCreator()
+	if(err != nil) {
+        return shim.Error("GetCreator err")
+    }
+    
+    value, err := stub.GetState(args[0])
+    if err != nil {
+            return shim.Error("Serial number " + args[0] +" not found")
+    }
+    
+    var pieceOfArt PieceOfArt
+    json.Unmarshal(value, &pieceOfArt)
+    if !(strings.EqualFold(pieceOfArt.Owner, string(creatorByte))) {
+        fmt.Printf("\n pieceOfArt.Owner : %s ", pieceOfArt.Owner[0:6])
+        fmt.Printf("\n string(creatorByte) : %s ", string(creatorByte)[0:6])
+        return shim.Error("Only owner " + pieceOfArt.Owner +  " can transfer ownership")
+    }
+    
+    pieceOfArt.Owner = args[1]
+    pieceOfArtAsBytes, err := json.Marshal(pieceOfArt)
+    
+    if err != nil {
+        return shim.Error(err.Error())
+    }
+    err = stub.PutState(pieceOfArt.Snumber, pieceOfArtAsBytes)
     return shim.Success(nil)
 }
 
