@@ -11,3 +11,4 @@ services:
       - ./orderer/:/opt/gopath/src/github.com/hyperledger/fabric/peer/orderer
       - ./chaincode:/opt/gopath/src/
       - ./channels/:/opt/gopath/src/github.com/hyperledger/fabric/peer/channels
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
