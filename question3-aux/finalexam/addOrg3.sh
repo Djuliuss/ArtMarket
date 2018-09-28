@@ -16,3 +16,17 @@ sudo rm -f /home/julio/hlf/FinalExam/question3-aux/finalexam/chaincode/github.co
 docker exec -d cli.Org1 bash -c 'jq .data.data[0].payload.data.config config_block.json > config.json'
 sudo rm -f /home/julio/hlf/FinalExam/question3-aux/finalexam/chaincode/github.com/hyperledger/fabric/peer/updated_config.json
 docker exec -d cli.Org1 bash -c 'jq -s '"'"'.[0] * {"channel_group":{"groups":{"Application":{"groups":{"Org3MSP":.[1]}}}}}'"'"' config.json ./channel-artifacts/org3.json >& updated_config.json' 
+sudo rm -f /home/julio/hlf/FinalExam/question3-aux/finalexam/chaincode/github.com/hyperledger/fabric/peer/config.pb
+docker exec -d cli.Org1 bash -c 'curl -X POST --data-binary @config.json "http://127.0.0.1:7059/protolator/encode/common.Config" > config.pb'
+sudo rm -f /home/julio/hlf/FinalExam/question3-aux/finalexam/chaincode/github.com/hyperledger/fabric/peer/updated_config.pb
+docker exec -d cli.Org1 bash -c 'curl -X POST --data-binary @updated_config.json "http://127.0.0.1:7059/protolator/encode/common.Config" > updated_config.pb'
+sudo rm -f /home/julio/hlf/FinalExam/question3-aux/finalexam/chaincode/github.com/hyperledger/fabric/peer/config_update.pb
+docker exec -d cli.Org1 bash -c 'curl -X POST -F channel=test -F "original=@config.pb" -F "updated=@updated_config.pb" "http://127.0.0.1:7059/configtxlator/compute/update-from-configs" > config_update.pb'
+sudo rm -f /home/julio/hlf/FinalExam/question3-aux/finalexam/chaincode/github.com/hyperledger/fabric/peer/config_update.json
+docker exec -d cli.Org1 bash -c 'curl -X POST --data-binary @config_update.pb "http://127.0.0.1:7059/protolator/decode/common.ConfigUpdate" | jq . > config_update.json'
+sudo rm -f /home/julio/hlf/FinalExam/question3-aux/finalexam/chaincode/github.com/hyperledger/fabric/peer/config_update_in_envelope.json
+docker exec -d cli.Org1 bash -c 'echo '"'"'{"payload":{"header":{"channel_header":{"channel_id":"mychannel","type":2}},"data":{"config_update":'"'"'$(cat config_update.json)'"'"'}}}'"'"' | jq . > config_update_in_envelope.json' 
+sudo rm -f /home/julio/hlf/FinalExam/question3-aux/finalexam/chaincode/github.com/hyperledger/fabric/peer/config_update_in_envelope.pb
+docker exec -d cli.Org1 bash -c 'curl -X POST --data-binary @config_update_in_envelope.json "http://127.0.0.1:7059/protolator/encode/common.Envelope" > config_update_in_envelope.pb'
+
+docker exec -d cli.Org1 bash -c 'peer channel signconfigtx -f config_update_in_envelope.pb"
