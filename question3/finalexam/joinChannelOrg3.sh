@@ -4,7 +4,13 @@ docker exec cli.Org3 bash -c 'peer channel fetch 0 test.block -o orderer.finalex
 
 docker exec cli.Org3 bash -c 'peer channel join -b test.block'
 
-docker exec cli.Org3 bash -c 'peer chaincode install -p finalexam -n finalexam -v 0'
+docker exec cli.Org3 bash -c 'peer chaincode install -p finalexam -n finalexam -v 1'
+
+docker exec cli.Org1 bash -c 'peer chaincode install -p finalexam -n finalexam -v 1'
+
+docker exec cli.Org2 bash -c 'peer chaincode install -p finalexam -n finalexam -v 1'
+
+docker exec cli.Org1 bash -c "peer chaincode upgrade -C test -n finalexam -v 1 -c '{\"Args\":[]}'"
 
 sleep 10
 

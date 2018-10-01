@@ -55,14 +55,18 @@ func (c *FinalExam) createPieceOfArt(stub shim.ChaincodeStubInterface, args []st
     
     pieceOfArtAsBytes, err := json.Marshal(pieceOfArt)
     
-    fmt.Printf("\npiece of art as bytes: %s", pieceOfArtAsBytes)
-    
     if err != nil {
         return shim.Error(err.Error())
     }
     
+    fmt.Printf("\npiece of art as bytes: %s", pieceOfArtAsBytes)
+    
     fmt.Printf("\nsnumber: %s", pieceOfArt.Snumber)
     
+    fmt.Printf("\nhello1")
+
+    fmt.Printf("\nhello2")
+
     err = stub.PutState(pieceOfArt.Snumber, pieceOfArtAsBytes)
 
     if err != nil {
