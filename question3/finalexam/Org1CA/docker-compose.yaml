@@ -1,0 +1,34 @@
+version: '2'
+
+networks:
+  Org1CA:
+
+services:
+   ca.Org1:
+     image: hyperledger/fabric-ca:x86_64-1.1.0
+     container_name: ca.Org1
+     ports:
+       - 7054:7054
+     environment:
+       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+       - FABRIC_CA_SERVER_CA_NAME=ca.Org1
+     volumes:
+       - ./fabric-ca-server:/etc/hyperledger/fabric-ca-server
+     command: sh -c 'fabric-ca-server start -b admin:adminpw'
+     networks:
+      - Org1CA
+
+   ca.client.Org1:
+     tty: true
+     image: hyperledger/fabric-ca:x86_64-1.1.0
+     container_name: admin-client
+     environment:
+       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-client
+       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+     volumes:
+       - ./fabric-ca-client:/etc/hyperledger/fabric-ca-client
+     depends_on:
+       - ca.Org1
+     command: sh -c 'sleep 5;fabric-ca-client enroll -u http://admin:adminpw@ca.Org1:7054;sleep 10000'
+     networks:
+      - Org1CA
