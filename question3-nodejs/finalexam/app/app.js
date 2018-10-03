@@ -84,6 +84,42 @@ function invoke(opt, param) {
       });
 };
   
+function invokeTransfer(opt, param) {
+    return enrolUser(client, opt)
+      .then(user => {
+        if(typeof user === "undefined" || !user.isEnrolled())
+          throw "User not enrolled";
+  
+        channel = initNetwork(client, opt, target);
+        const request = {
+            targets: target,
+            chaincodeId: opt.chaincode_id,
+            fcn: 'transferPieceOfArt',
+            args: param,
+            chainId: opt.channel_id,
+            txId: null
+        };
+        return transactionProposal(client, channel, request);
+      })
+      .then(results => {
+        if (responseInspect(results)) {
+          const request = {
+            proposalResponses: results[0],
+            proposal: results[1],
+            header: results[2]
+          };
+          return sendOrderer(channel, request);
+        } else {
+          throw "Response is bad";
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        throw err;
+      });
+};
+
+
 const options = {
     Org3 : {
       wallet_path: '/home/julio/hlf/FinalExam/question3-nodejs/finalexam/app/certs',
@@ -118,6 +154,18 @@ app.post('/invoke', function(req, res, next) {
       res.send(err.toString());
     });
 });
+
+app.post('/invokeTransfer', function(req, res, next) {
+  const args = req.body.args;
+  invokeTransfer(options[args[0]], args.slice(1))
+    .then(() => res.send("Chaincode invoked"))
+    .catch(err => {
+      res.status(500);
+      res.send(err.toString());
+    });
+});
+
+
 
 app.get('/', function(req, res) {
   res.render('UI.html');
