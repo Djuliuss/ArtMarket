@@ -57,16 +57,23 @@ func (c *PcXchg) createPC(stub shim.ChaincodeStubInterface, args []string) pb.Re
         return shim.Error("createPC arguments usage: Serialnumber, Serie, Others")
     }
 
+    
     // A newly created computer is available
     pc := PC{args[0], args[1], args[2], "available"}
-
+    
+    
+    fmt.Printf("Pc: %s", pc)
+    
     // Use JSON to store in the Blockchain
     pcAsBytes, err := json.Marshal(pc)
-
+    
+    
     if err!=nil {
         return shim.Error(err.Error())
     }
-
+    
+    fmt.Printf("PcAsBytes: %s", pcAsBytes)
+    
     // Use serial number as key
     err = stub.PutState(pc.Snumber, pcAsBytes)
 
@@ -133,7 +140,7 @@ func (c *PcXchg) queryStock(stub shim.ChaincodeStubInterface, args []string) pb.
         keys += queryResponse.Key + " \n"
     }
 
-    fmt.Println(keys)
+    fmt.Println("hello")
 
     return shim.Success([]byte(keys))
 }
@@ -150,13 +157,14 @@ func (c *PcXchg) queryDetail(stub shim.ChaincodeStubInterface, args []string) pb
     var pc PC
     // Decode value
     json.Unmarshal(value, &pc)
-
+    fmt.Printf("chiquito")
     fmt.Print(pc)
     // Response info
     return shim.Success([]byte(" SNMBR: " + pc.Snumber + " Serie: " + pc.Serie + " Others: " + pc.Others + " Status: " + pc.Status))
 }
 
 func main() {
+    fmt.Printf("de la calzada")
     err := shim.Start(new(PcXchg))
     if err != nil {
         fmt.Printf("Error starting chaincode sample: %s", err)

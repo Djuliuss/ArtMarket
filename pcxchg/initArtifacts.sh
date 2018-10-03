@@ -1,8 +1,10 @@
 #!/bin/bash
 
 sudo rm -rf crypto-config
-sudo rm -rf orderer && mkdir orderer
-sudo rm -rf channels && mkdir channels
+sudo rm -rf orderer 
+sudo rm -rf channels
+mkdir orderer
+mkdir channels
 
 cryptogen generate --config crypto-config.yaml
 
