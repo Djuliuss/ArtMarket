@@ -119,7 +119,6 @@ function invokeTransfer(opt, param) {
       });
 };
 
-
 const options = {
     Org3 : {
       wallet_path: '/home/julio/hlf/FinalExam/question3-nodejs/finalexam/app/certs',
@@ -129,6 +128,45 @@ const options = {
       peer_url: 'grpc://localhost:9051',
       orderer_url: 'grpc://localhost:7050'
     },
+};
+
+const query = function(opt, param, request) {
+  return enrolUser(client, opt)
+    .then(user => {
+      if(typeof user === "undefined" || !user.isEnrolled()) {
+        throw "User not enrolled";
+      }
+      channel = initNetwork(client, opt, target);
+      request.chaincodeId = opt.chaincode_id;
+      request.chainId = opt.channel_id;
+      request.args = param;
+      request.txId = client.newTransactionID();
+      return channel.queryByChaincode(request);
+    })
+    .then(queryResponses => {
+      const result=[];
+
+      for(let i = 0; i < queryResponses.length; i++) {
+        result.push( queryResponses[i].toString('utf8') );
+      }
+
+      return JSON.stringify({ result });
+    })
+    .catch(err => {
+      console.log(err);
+      throw err;
+    });
+}
+
+const requests = {
+  queryPieceOfArt: {
+    targets: null,
+    chaincodeId: null,
+    fcn: 'queryPieceOfArt',
+    args: null,
+    chainId: null,
+    txId: null
+  },
 };
 
 const express = require("express");
@@ -165,6 +203,17 @@ app.post('/invokeTransfer', function(req, res, next) {
     });
 });
 
+app.get('/API/queryPieceOfArt', function(req, res, next) {
+  query(
+      options[req.query.org],
+      [ req.query.reference.toString() ],
+      requests[ "queryPieceOfArt" ])
+    .then(result => res.json(result))
+    .catch(err => {
+      res.status(500);
+      res.send(err.toString());
+    });
+});
 
 
 app.get('/', function(req, res) {
