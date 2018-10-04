@@ -1,7 +1,0 @@
-PeerOrgs:
-  - Name: Org3
-    Domain: Org3.com
-    Template:
-      Count: 2
-    Users:
-      Count: 1
