@@ -37,10 +37,10 @@ services:
       - CORE_PEER_ID=peer0.Org1.com
       - CORE_PEER_ADDRESS=peer0.Org1.com:7051
       - CORE_PEER_LOCALMSPID=Org1MSP
-      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.Org1.com:7051
     volumes:
-      - ./crypto-config/peerOrganizations/Org1.com/peers/peer0.Org1.com/msp:/etc/hyperledger/msp/peer
+      - ./crypto-config/peerOrganizations/Org1.com/peers/peer0.Org1.com/msp:/etc/hyperledger/fabric/msp
       - ./crypto-config/peerOrganizations/Org1.com/peers/peer0.Org1.com/tls:/etc/hyperledger/fabric/tls
     ports:
       - 7051:7051
@@ -59,10 +59,10 @@ services:
       - CORE_PEER_ID=peer1.Org1.com
       - CORE_PEER_ADDRESS=peer1.Org1.com:7051
       - CORE_PEER_LOCALMSPID=Org1MSP
-      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.Org1.com:7051
     volumes:
-      - ./crypto-config/peerOrganizations/Org1.com/peers/peer1.Org1.com/msp:/etc/hyperledger/msp/peer
+      - ./crypto-config/peerOrganizations/Org1.com/peers/peer1.Org1.com/msp:/etc/hyperledger/fabric/msp
       - ./crypto-config/peerOrganizations/Org1.com/peers/peer1.Org1.com/tls:/etc/hyperledger/fabric/tls
     ports:
       - 7052:7052
@@ -81,10 +81,10 @@ services:
       - CORE_PEER_ID=peer0.Org2.com
       - CORE_PEER_ADDRESS=peer0.Org2.com:7051
       - CORE_PEER_LOCALMSPID=Org2MSP
-      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.Org2.com:7051
     volumes:
-      - ./crypto-config/peerOrganizations/Org2.com/peers/peer0.Org2.com/msp:/etc/hyperledger/msp/peer
+      - ./crypto-config/peerOrganizations/Org2.com/peers/peer0.Org2.com/msp:/etc/hyperledger/fabric/msp
       - ./crypto-config/peerOrganizations/Org2.com/peers/peer0.Org2.com/tls:/etc/hyperledger/fabric/tls
     ports:
       - 8051:7051
@@ -103,10 +103,10 @@ services:
       - CORE_PEER_ID=peer1.Org2.com
       - CORE_PEER_ADDRESS=peer1.Org2.com:7051
       - CORE_PEER_LOCALMSPID=Org2MSP
-      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.Org2.com:7051
     volumes:
-      - ./crypto-config/peerOrganizations/Org2.com/peers/peer1.Org2.com/msp:/etc/hyperledger/msp/peer
+      - ./crypto-config/peerOrganizations/Org2.com/peers/peer1.Org2.com/msp:/etc/hyperledger/fabric/msp
       - ./crypto-config/peerOrganizations/Org2.com/peers/peer1.Org2.com/tls:/etc/hyperledger/fabric/tls
     ports:
       - 8052:7052
