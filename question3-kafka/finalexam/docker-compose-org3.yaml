@@ -1,0 +1,43 @@
+version: '2'
+
+networks:
+  finalexam:
+
+services:
+
+  peer0.Org3.com:
+    container_name: peer0.Org3.com
+    extends:
+      file: ./peer.yaml
+      service: peer
+    environment:
+      - CORE_PEER_ID=peer0.Org3.com
+      - CORE_PEER_ADDRESS=peer0.Org3.com:7051
+      - CORE_PEER_LOCALMSPID=Org3MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.Org3.com:7051
+    volumes:
+      - ./org3-artifacts/crypto-config/peerOrganizations/Org3.com/peers/peer0.Org3.com/msp:/etc/hyperledger/msp/peer
+    ports:
+      - 9051:7051
+      - 9053:7053
+    networks:
+      - finalexam
+
+  cli.Org3:
+    extends:
+      file: ./cli.yaml
+      service: cli
+    container_name: cli.Org3
+    environment:
+      - CORE_PEER_ID=cli.Org3.com
+      - CORE_PEER_ADDRESS=peer0.Org3.com:7051
+      - CORE_PEER_LOCALMSPID=Org3MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@Org3.com/msp
+    volumes:
+      - ./org3-artifacts/crypto-config/peerOrganizations/Org3.com:/etc/hyperledger/msp
+    depends_on:
+      - peer0.Org3.com
+    networks:
+      - finalexam
+
