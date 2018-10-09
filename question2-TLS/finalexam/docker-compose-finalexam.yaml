@@ -13,6 +13,7 @@ services:
       - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+# these are the TLS parameters that need to be enabled
       - ORDERER_GENERAL_TLS_ENABLED=true
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
       - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
@@ -20,6 +21,7 @@ services:
     volumes:
       - ./orderer/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
       - ./crypto-config/ordererOrganizations/finalexam.com/orderers/orderer.finalexam.com/msp:/var/hyperledger/orderer/msp
+# we also have to mount the TLS folder
       - ./crypto-config/ordererOrganizations/finalexam.com/orderers/orderer.finalexam.com/tls:/var/hyperledger/orderer/tls
     command: orderer
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
@@ -41,6 +43,7 @@ services:
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.Org1.com:7051
     volumes:
       - ./crypto-config/peerOrganizations/Org1.com/peers/peer0.Org1.com/msp:/etc/hyperledger/fabric/msp
+# we also have to mount the TLS folder
       - ./crypto-config/peerOrganizations/Org1.com/peers/peer0.Org1.com/tls:/etc/hyperledger/fabric/tls
     ports:
       - 7051:7051
@@ -126,6 +129,7 @@ services:
       - CORE_PEER_ADDRESS=peer0.Org1.com:7051
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@Org1.com/msp
+# these are the TLS parameters that need to be enabled
       - CORE_PEER_TLS_ENABLED=true
       - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/Org1.com/peers/peer0.Org1.com/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/Org1.com/peers/peer0.Org1.com/tls/server.key
@@ -149,6 +153,7 @@ services:
       - CORE_PEER_ADDRESS=peer0.Org2.com:7051
       - CORE_PEER_LOCALMSPID=Org2MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@Org2.com/msp
+# these are the TLS parameters that need to be enabled
       - CORE_PEER_TLS_ENABLED=true
       - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/Org2.com/peers/peer0.Org2.com/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/Org2.com/peers/peer0.Org2.com/tls/server.key
