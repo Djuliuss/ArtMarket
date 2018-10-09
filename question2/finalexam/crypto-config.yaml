@@ -1,9 +1,12 @@
 OrdererOrgs:
+# Only one orderer: orderer.finalexam.com
   - Name: Orderer
     Domain: finalexam.com
     Specs:
       - Hostname: orderer
 PeerOrgs:
+# Two Org2: Org1.com and Org2.com. Each one of them will have 2 peers (field Templante Count)
+# and 1 User  (field Users Count) and 1 Admin.
   - Name: Org1
     Domain: Org1.com
     Template:
