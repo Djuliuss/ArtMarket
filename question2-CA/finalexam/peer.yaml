@@ -1,5 +1,5 @@
 version: '2'
-
+# basic parameters for the peer.yaml
 services:
   peer:
     image: hyperledger/fabric-peer:x86_64-1.1.0
@@ -8,6 +8,7 @@ services:
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=finalexam_finalexam
       - CORE_PEER_ADDRESSAUTODETECT=true
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer/
+# we launch the peer as soon as the container loads
     command: peer node start
     volumes:
     - /var/run/:/host/var/run/

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# this script copies all the certificates from the CA folder to the crypto folder.
 # channel and genesis block
 sudo cp ./Org2CA/fabric-ca-client/msp/signcerts/cert.pem /home/julio/hlf/FinalExam/question2-CA/finalexam/crypto-config/peerOrganizations/Org2.com/msp/admincerts/Admin@Org2.com-cert.pem
 
