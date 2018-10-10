@@ -1,1 +1,1 @@
-docker-compose -f docker-compose-finalExam.yaml down
+docker-compose -f docker-compose-finalexam.yaml down

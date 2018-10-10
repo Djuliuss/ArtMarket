@@ -2,7 +2,7 @@
 
 This folder contains the implementation for Questions 3.2 (NodeJS)
 
-For simplicity, I have not included the steps to get Fabric CA (question 2.5). Following the steps on this page will create the network without Fabric CA certificates. If you wish to add them, you will need to follow the steps on the README.md file in Question 2-CA.
+For simplicity's sake, I have not included the steps to get Fabric CA (question 2.5). Following the steps on this page will create the network without Fabric CA certificates. If you wish to add them, you will need to follow the steps on the README.md file in Question 2-CA.
 
 ## To set up the network and to add Org3
 

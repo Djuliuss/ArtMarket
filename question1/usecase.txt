@@ -1,0 +1,50 @@
+1. Explain the problem and mention current solutions.
+
+Art forgery , in art, a work of literature, painting, sculpture, or objet d’art that purports to be the work of someone other than its true maker. The range of forgeries extends from misrepresentation of a genuine work of art to the outright counterfeiting of a work or style of an artist. 
+
+Current solutions to this problem would be the following:
+
+- Provenance or "paper trail": documents that prove the chain of ownwership of a piece of art.
+- Physical examination of the piece: there are a number of signs that can be used to ascertain whether a work is a forgery: alterations in frame, modifications in stretcher bars and other inconsistencies in the work.
+- Forensic examination: with methods such as "Carbon dating" or "White lead".
+
+All these solutions to the problem are added costs that reduce the efficiency of the art market. As a consequence, to this date, the online art market only represents 8% of the total art market.
+
+
+2. Describe the advantages and disadvantages of using a blockchain solution. 
+
+Blockchain could be a solution to reduce the costs associated with fighting art forgery. Current provenance systems rely on paper documents, which are always expensive and complicated to manage. Using Blockchain technology, we could implement a decentralised ledger that keeps track of the current owner of a give piece of art. Anytime a parcipant of the network decides to transfer the ownership of a piece of art , they could send a transaction to this blockchain platform, signed with their private key, indicating who the new owner is. Going forward, any private owner or art gallery, could use the blockchain as a reliable and decentralised database to keep track the chain of ownership. This would a much more efficient process than current provenance procedures.
+
+For this solution to be fully effective, all the major players in the art dealership world should be on board on one platform. This could be quite challenging to overcome as these entities are spread in many different countries. 
+Governance needs to be clear as well. Even though Blockchain technology is fundamentally decentralised , there should some sort of entity that ensures that the solution is working as expected. 
+It is not clear whether museums, artists and art galleries would happily give away information about the pieces of art they own and some of them could prefer to keep private that information. An implementation in Hyperledger Fabric on a permissioned Blockchain could restrict access to the data to only the counterparties that participate in a piece of art purchase. This should make things easier to art galleries when it comes to publish their purchase data in the blockchain.
+
+3. Design a network to help the art market. Think about Peers, CA, Channels and Smart Contracts. Make a critical analysis.
+
+I propose the following network called Decentralised Art Market which will run on Hyperledger Fabric. 
+
+The peers of the network will be Art Dealers. These peers will in turn provide access to to the network to the Client nodes, which will be one of the following categories: Artist, Art Dealers and Art Collectors.
+
+Therefore Art Dealers will have a double role in the network. On one hand, they will manage the nodes that make up the network (validating, commiting and anchor ppers) and they will also be final Clients that will engage with the blockchain by invoking the chaincode. 
+On the other hand, Artists and Art Collectors are also Clients, but they will not be managing peers. They will have access to the blockchain by using their Client applications, which will be associated to a peer. 
+ 
+Each Client container will have the chaincode installed. This chaincode will enable the change of ownership of a given piece of art among other functions. 
+
+The peers (Art Dealers) will have to be paired up in channels. So there must be a channel for each possible pair of art dealers. Whenever a Art Dealer transfers the ownership of a piece of art to another, they will use their channel to record this transfer. That way, we ensure only participants in a given operation will have access to the data associated with the transfer. 
+
+The Governance of the network will be managed by third party that would represent the interests of the Art Dealers. It will be the responsibility of this organization to manage the Orderer node and the CA certificates of the peers. So when a new Art Dealer joins the network, they will need to request the CA certificate from the Governance Body. Without a certificate, a peer cannot interact with the network.
+
+Apart from the Art Dealers, there are other type users that should benefit from our Decentralised Art Market: Artists and Art Collectors (private collectors, museums...). Every entity that falls in either two of those categories will be a Client of the newtork. The Clients will have access to an specifically designed software Application that will allow them to interact with the blockchain network. To become members of the network, Clients will need to find a Peer that will represent them and give them access to the mentioned software together with the CA certificate for that Client/user.
+
+The Client application will have different features depending on the Client type (Artist / Art Collector).
+Artist's application will allow an Artist to create a new Piece of Art (such as a painting or an artist) and add it on to the Blockchain and look for potential buyers.
+
+Art Collector's application will allow potential buyers find information of a given Piece of Art, validate their chain of ownership eventually perform a purchase.
+
+
+
+
+
+
+
+

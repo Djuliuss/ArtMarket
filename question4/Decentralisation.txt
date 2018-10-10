@@ -1,0 +1,42 @@
+1. You could run the nodes native on hosts. Why is this impractical?
+It is impractical because relies in manual configuration which is prone to errors and complications.
+As a consequence, modifications of the configuration of the network become a extremely  cumbersome process.
+Also, unless you have the physical nodes spread all over the world, the latency is going to be quite higher compared to running the application on a Cloud environment. 
+There is something else: in order to have a fault tolerance acceptable enough, an organization would have to run the hosts on different servers to avoid downtime if one of them fails down. This makes the setting of the platform mucho more complex and costly.
+
+2. You could use various services, e.g. Docker Swarm or Kubernetes. Explain briefly Swarm and Kubernetes. Name some sources for the next steps to use them for Hyperledger Fabric. 
+
+Docker Swarm is a server side feature in docker's client server architecture designed to cheduling containers across multiple nodes, which can be either physical or virtual machines. Once the cluster has been set up, the docker commands need to be executed by a Swarm manager.
+
+Kubernetes is an open source system for managing containerized applications across multiple hosts; providing basic mechanisms for deployment, maintenance, and scaling of applications. It was originally developed by Google, but nowadays is hosted by the Cloud Native Computing Foundation. The basic scheduling unit in Kubernetes is a pod.A pod consists of one or more containers that are guaranteed to be co-located on the host machine and can share resources.
+
+Fabric and Swarm links:
+
+https://medium.com/@wahabjawed/hyperleAdger-fabric-on-multiple-hosts-a33b08ef24f
+
+https://github.com/blockchainvn/hyperledger-fabric-swarm
+
+
+Fabric and Kubernetes links:
+
+https://hackernoon.com/how-to-deploy-hyperledger-fabric-on-kubernetes-1-a2ceb3ada078
+
+https://github.com/IBM/blockchain-network-on-kubernetes
+
+https://opensource.com/article/18/4/deploying-hyperledger-fabric-kubernetes
+
+
+3. You can use IBM Cloud. Tell us what it offers in regard to Hyperledger Fabric.
+
+IBM Cloud offers IBM Blockchain Platform, a SaaS (Software as a Service) specifically designed to run blockchain solutions. The core operating system of the IBM Blockchain Platform is Hyperledger Fabric.
+
+4. There is a project called Hyperledger Cello. Explain, what it aims to do and where one can learn more about it, as well how to get support.
+
+Cello is a Hyperledger project aimed making easier to manage one or several blockchains. At the moment, to install and manage a node in Fabric requires the use of many scripts and editing manual configuration files. That sort of setting results in a cumbersome process prone to human error. 
+Cello mantains a Dashboard with a pool of blockchains and provides the tools to change the configuration of any of them instantly. It also allows to dynamically scale the physical resources.
+
+To find out more: https://github.com/hyperledger/cello and https://wiki.hyperledger.org/projects/cello.
+To get support:  cello@lists.hyperledger.org.  Rocket channel: https://chat.hyperledger.org/channel/cello.
+
+
+
