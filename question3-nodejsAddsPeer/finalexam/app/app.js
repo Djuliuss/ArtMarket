@@ -120,22 +120,18 @@ function invokeTransfer(opt, param) {
 };
 
 function addPeer(opt, param) {
-	console.log("foo");
 	return enrolUser(client, opt)
       	.then(user => {
-      		console.log("foo2")
         	if(typeof user === "undefined" || !user.isEnrolled())
           		throw "User not enrolled";
 	        channel = initNetwork(client, opt, target);
         	let tx_id = client.newTransactionID();
-        	console.log("foo3")
 			let g_request = {
   				txId :     tx_id
 			};
 			return channel.getGenesisBlock(g_request)
 		})	
 		.then((block) => {
-  			console.log("foo4")
   			let genesis_block = block;
   			let tx_id = client.newTransactionID();
   			let j_request = {
@@ -145,15 +141,7 @@ function addPeer(opt, param) {
   			};
   			return channel.joinChannel(j_request);
   		
-  		})
-  		.then((results) =>{
-  			console.log("foo5")
-  			if(results && results.response && results.response.status == 200) {
-    			console.log("foo6")
-  			} else {
-    			console.log("foo7")
-  			}
-		});
+  		});
 }
 
 
