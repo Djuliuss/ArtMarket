@@ -1,0 +1,56 @@
+The configtxlator tool was created to support reconfiguration independent of SDKs. I prepared a script.sh that leverages this tool and 
+does all the work needed to create a transaction with the updated configuration. I will copy now the steps of the script and comment what each
+one of them does.
+
+# first install jq tool
+apt update; apt install -y jq
+
+# we launch configtxlator and send it to the background
+configtxlator start & 
+
+sudo rm -rf co* up*
+
+# we retrieve the latest configuration block
+peer channel fetch config config_block.pb -o orderer.finalexam.com:7050 -c test
+sleep 3
+
+# we use the decode function from configtxlator to turn it into JSON format
+curl -X POST --data-binary @config_block.pb "http://127.0.0.1:7059/protolator/decode/common.Block" | jq . > config_block.json
+
+# we use jq to remove the header of the block
+jq .data.data[0].payload.data.config config_block.json > config.json
+
+# we append in the block the crypto material of Org3
+jq -s '.[0] * {"channel_group":{"groups":{"Application":{"groups":{"Org3MSP":.[1]}}}}}' config.json ./channel-artifacts/org3.json >& updated_config.json 
+
+# we encode the original configuration block back into protobuf format using configtxlator
+curl -X POST --data-binary @config.json "http://127.0.0.1:7059/protolator/encode/common.Config" > config.pb
+sleep 3
+
+# we encode too the updated block into protobuf format using configtxlator
+curl -X POST --data-binary @updated_config.json "http://127.0.0.1:7059/protolator/encode/common.Config" > updated_config.pb
+sleep 3
+
+# we use configtxlator to work out the delta between both transactions
+curl -X POST -F channel=test -F "original=@config.pb" -F "updated=@updated_config.pb" "http://127.0.0.1:7059/configtxlator/compute/update-from-configs" > config_update.pb
+sleep 3
+
+# we turn the update transaction back into json
+curl -X POST --data-binary @config_update.pb "http://127.0.0.1:7059/protolator/decode/common.ConfigUpdate" | jq . > config_update.json
+sleep 3
+
+# we add the header into the update transaction
+echo '{"payload":{"header":{"channel_header":{"channel_id":"test","type":2}},"data":{"config_update":'$(cat config_update.json)'}}}' | jq . > config_update_in_envelope.json 
+
+# we use confitxlator again to turn the update transaction into protobuf format
+curl -X POST --data-binary @config_update_in_envelope.json "http://127.0.0.1:7059/protolator/encode/common.Envelope" > config_update_in_envelope.pb
+
+# finally we sign the transaction with Org1
+sleep 3
+peer channel signconfigtx -f config_update_in_envelope.pb
+
+
+
+The next step will be Org2 to sign and send the update transaction to the orderer by running the following:
+
+peer channel update -f config_update_in_envelope.pb -c test -o orderer.finalexam.com:7050
