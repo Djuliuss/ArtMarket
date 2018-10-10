@@ -8,9 +8,10 @@ cp /home/julio/hlf/FinalExam/question3-nodejs/finalexam/org3-artifacts/crypto-co
 cd app/certs
 awk '{printf "%s\\n", $0}' Admin\@Org3.com-cert.pem > Org3AdminFormatted.pem
 
+# once you have run this script once, uncomment the follow line with the new key and run again 
+# (optionally, comment the the lines above)
 
-cp 995ad705b8ea0d249607403f7d682ff56adcca837a90bc75de87c2fa39bfedfb_sk ~/.hfc-key-store/995ad705b8ea0d249607403f7d682ff56adcca837a90bc75de87c2fa39bfedfb-priv
-
+cp 99ffa789d79fdf64eefdbfa687e4b4b0b0b625195aff3050b2c1b58e6b6f4bfc_sk ~/.hfc-key-store/99ffa789d79fdf64eefdbfa687e4b4b0b0b625195aff3050b2c1b58e6b6f4bfc-priv
 
 
 
