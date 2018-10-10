@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker exec cli.Org3 bash -c 'peer channel fetch 0 test.block -o orderer.finalexam.com:7050 -c test'
+docker exec cli.Org3 bash -c 'peer channel fetch 0 test.block -o orderer2.finalexam.com:7050 -c test'
 
 docker exec cli.Org3 bash -c 'peer channel join -b test.block'
 
