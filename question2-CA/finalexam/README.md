@@ -1,6 +1,6 @@
 # Question 2-CA
 
-This folder contains the implementation for Questions 2.5 (Fabric CA)
+This folder contains the implementation for Question 2.5 (Fabric CA)
 
 ## To generate the Fabric CA certificates
 
